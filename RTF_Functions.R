@@ -23,11 +23,6 @@ library(tidyr)
 #table header wrap to next line: \n
 
 
-# plusminus <- "\\'b1"
-# le <- '\\leq'
-# ge <- '\\geq'
-
-
 # ---- Define System parameters---
 runtime <- Sys.time()
 prg_path <- rstudioapi::getSourceEditorContext()$path
@@ -43,28 +38,77 @@ footnote7 <- paste0("Programmer: ", user)
 
 # source("02_Program/Batch/RTF_Functions.R")
 
-# rtf_X_X(
-#   data=final,
-#   number="Listing XXX",
-#   title="",
-#   subtitle1="Treated Patients",
-#   subtitle2= "US GPS",
-#   colheader= "||", 
-#   colheader2= '',
-#   colwidth = c(4,3,3,3,4,6,3,3,3,3),
-#   just = c("l","c","c","c","c","c","c","c","c","c"),
-#   hjust = c("l","c","c","c","c","c","c","c","c","c"),
-#   footnote1 = paste(""),
-#   footnote2 = "",
-#   footnote3 = "",
-#   footnote4 = paste0("Source Program: ", prg_name),  
-#   footnote5 = paste0("Data Extract Date :", extract_dt),
-#   footnote6 = paste0("Run Date :", runtime),  
-#   footnote7 = paste0("Programmer :", user), 
-#   output = "04_Output/.rtf"
-# )
+# Example usage 1
+RTF_TABLE(
+  data=final,
+  orientation="portrait",
+  number="Table IV2.",
+  title="Enrollment Summary by Site",
+  subtitle1="xx",
+  subtitle2= ''  ,
+  colheader=  "Site Number | Consented | In Screening | Screen Failure/Withdrawn |  Attempted | Treated*" ,
+  colheader2= '',
+  colwidth = c(2,2,2,4,2,2),
+  just = c("c","c","c","c","c","c"),
+  hjust = c("c","c","c","c","c","c"),
+  footnote1 = "Data displayed as number of patients.",
+  footnote2 = "",
+  footnote3 = "",
+  footnote4 = footnote4,
+  footnote5 = footnote5,
+  footnote6 = footnote6,
+  footnote7 = footnote7,
+  output = "04_Output/Table/T_01_00_00_ENR.rtf"
+)
+
+# Example usage 2
+RTF_TABLE (
+  data=final,
+  orientation="portrait",
+  number="Table IV6.",
+  title="Baseline Demographics",
+  subtitle1="Consented and Treated Patients",
+  subtitle2= 'xx'  ,
+  colheader=  "Measure | Consented | Treated" ,
+  colheader2= paste0("| n=",cnt1," | n=",cnt2),
+  colwidth = c(4,3,3),
+  just = c("l","c","c"),
+  hjust = c("c","c","c"),
+  footnote1 = paste0("Data displayed as either % (n/N) or n, Mean", plusminus, "SD, Median [Range]."),
+  footnote2 = "",
+  footnote3 = "",
+  footnote4 = footnote4,
+  footnote5 = footnote5,
+  footnote6 = footnote6,
+  footnote7 = footnote7,
+  output = "04_Output/Table/T_04_00_00_DM.rtf"
+)
 
 
+# Example Usage 3 (some parameters are defined in the control file)
+RTF_TABLE_DoubleHeader (
+  data= final,
+  orientation="landscape",
+  number=table_num,
+  title=table_title,
+  subtitle1=subtitle1,
+  subtitle2=subtitle2,
+  colheader2= " | Adjusted for Baseline BP | Adjusted for Change in Medications from Baseline* | Adjusted for Baseline BP & Change in Medications from Baseline | Adjusted for No. of Medications | Adjusted for Baseline BP & No. of Medications", 
+  colwidth2 = c(4,3,3,3,3,3),
+  hjust2 = c("c","c","c","c","c","c","c"),
+  colheader= "Measure|Time Point|LS Mean\n(95% CI) |p-value|LS Mean\n(95% CI)|p-value|LS Mean\n(95% CI)|p-value|LS Mean\n(95% CI)|p-value|LS Mean\n(95% CI)|p-value",
+  colwidth = c(4,4,3,3,3,3,3,3,3,3,3,3),
+  hjust = c("l","l","l","l","l","l","l","l","l","l","l","l"),
+  just = c("l","l","l","l","l","l","l","l","l","l","l","l"),
+  footnote1 = footnote1,
+  footnote2 = footnote2,
+  footnote3 = footnote3,
+  footnote4 = paste0(getwd(),"/02_Program/TLF/",table_num,".R"),
+  footnote5 = footnote5,
+  footnote6 = footnote6,
+  footnote7 = footnote7, 
+  output = paste0("04_Output/Table/", table_num, ".rtf")
+)
 
 
 # ---- Function to generate RTF Table
